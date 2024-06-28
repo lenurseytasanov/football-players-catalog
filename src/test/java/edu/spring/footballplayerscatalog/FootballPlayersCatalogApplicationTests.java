@@ -1,4 +1,4 @@
-package edu.spring.football_players_catalog;
+package edu.spring.footballplayerscatalog;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
