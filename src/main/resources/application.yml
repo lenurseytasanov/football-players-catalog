@@ -1,0 +1,16 @@
+spring:
+#    application:
+#        name: football-players-catalog
+    datasource:
+        driver-class-name: org.postgresql.Driver
+        url: jdbc:postgresql://localhost:5432/football_players_db
+        username: ${DB_USERNAME}
+        password: ${DB_PASSWORD}
+    jpa:
+        database: postgresql
+        hibernate:
+            ddl-auto: update
+
+server:
+    port: 8080
+
