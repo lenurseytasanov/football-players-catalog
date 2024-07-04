@@ -2,16 +2,14 @@ import React, { useEffect, useState } from "react";
 import PlayerInfo from "./PlayerInfo";
 
 function PlayerListPage({switchPage}) {
-    const [players, setPlayers] = useState([
-        {id: 1, firstname: 'player'}, 
-        {id: 2, firstname: "player"}]);
+    const [players, setPlayers] = useState([]);
 
     useEffect(() => async () => {
         await fetch("/api/players")
             .then(response => response.json())
             .then(response => setPlayers(response))
             .catch(error => {});
-    })
+    }, [])
 
     return (
         <div className="container main-content">

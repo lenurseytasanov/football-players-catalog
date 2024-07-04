@@ -35,11 +35,11 @@ function PlayerForm({initialPlayerState, onSubmit}) {
                 <label>Пол</label>
                 <div className="form-check form-check-inline">
                     <label className="form-check-label">Мужской</label>
-                    <input className="form-check-input" type="radio" name="sex" value="male" onChange={handleChange}></input>
+                    <input className="form-check-input" type="radio" name="sex" value="MALE" onChange={handleChange}></input>
                 </div>      
                 <div className="form-check form-check-inline">
                     <label className="form-check-label">Женский</label>
-                    <input className="form-check-input" type="radio" name="sex" value="female" onChange={handleChange}></input>
+                    <input className="form-check-input" type="radio" name="sex" value="FEMALE" onChange={handleChange}></input>
                 </div>                       
             </div>
             <div className="form-group">
@@ -50,9 +50,9 @@ function PlayerForm({initialPlayerState, onSubmit}) {
             <div className="form-group">
                 <label>Страна</label>
                 <select className="form-control" name="country" value={player.country} onChange={handleChange}>
-                    <option value="russia">Россия</option>
-                    <option value="usa">США</option>
-                    <option value="italy">Италия</option>
+                    <option value="RUSSIA">Россия</option>
+                    <option value="USA">США</option>
+                    <option value="ITALy">Италия</option>
                 </select>
             </div>
             <button type="submit" className="btn btn-primary btn-block">Сохранить</button>

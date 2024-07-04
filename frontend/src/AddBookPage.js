@@ -6,7 +6,7 @@ function AddBookPage() {
         event.preventDefault();
 
         console.log(player);
-        await fetch('/api/players/new', {
+        await fetch('/api/players', {
             method: "post",
             headers: {
                 "Content-Type": "application/json"

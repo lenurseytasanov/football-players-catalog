@@ -11,7 +11,7 @@ function TeamSelectBox({value, onChange}) {
             .then(response => response.json())
             .then(list => setTeams(list))
             .catch(error => {});
-    });
+    }, []);
 
     return (
         <div className="form-group">
