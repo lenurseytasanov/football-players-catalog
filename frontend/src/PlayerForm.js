@@ -85,7 +85,7 @@ function PlayerForm({initialPlayerState, sendData}) {
                     <option></option>
                     <option value="RUSSIA">Россия</option>
                     <option value="USA">США</option>
-                    <option value="ITALy">Италия</option>
+                    <option value="ITALY">Италия</option>
                 </select>
                 {errors.country && <p className="mandatory-field">{errors.country}</p>}
             </div>
