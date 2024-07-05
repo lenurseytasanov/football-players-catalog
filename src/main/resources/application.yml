@@ -1,6 +1,6 @@
 spring:
-#    application:
-#        name: football-players-catalog
+    application:
+        name: football-players-catalog
     datasource:
         driver-class-name: org.postgresql.Driver
         url: jdbc:postgresql://localhost:5432/football_players_db
@@ -14,3 +14,7 @@ spring:
 server:
     port: 8080
 
+logging:
+    level:
+        org.hibernate: error
+        org.springframework.web: trace

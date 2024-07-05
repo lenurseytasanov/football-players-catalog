@@ -1,8 +1,40 @@
 import React, { useEffect, useState } from "react";
 import PlayerInfo from "./PlayerInfo";
+import { Client } from '@stomp/stompjs';
 
 function PlayerListPage({switchPage, setPlayer}) {
     const [players, setPlayers] = useState([]);
+
+    useEffect(() => {
+        const client = new Client();
+
+        client.configure({
+            brokerURL: 'ws://localhost:8080/ws',
+            heartbeatIncoming: 0,
+            heartbeatOutgoing: 0,
+            onConnect: () => {
+                console.log('onConnect');
+
+                client.subscribe('/topic', message => {
+                    const updatedPlayers = JSON.parse(message.body);
+                    setPlayers(updatedPlayers);
+                })
+            },
+            debug: (str) => {
+                console.log(new Date(), str);
+            },
+            onStompError: function (frame) {
+                console.log('Broker reported error: ' + frame.headers['message']);
+                console.log('Additional details: ' + frame.body);
+            }           
+        });
+
+        client.activate();
+
+        return () => {
+            client.deactivate();
+          };
+    }, []);
 
     useEffect(() => async () => {
         await fetch("/api/players")

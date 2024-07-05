@@ -8,6 +8,7 @@ import edu.spring.footballplayerscatalog.service.PlayerService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -19,6 +20,8 @@ import java.util.List;
 public class PlayerController {
 
     private final PlayerService playerService;
+
+    private final SimpMessagingTemplate messagingTemplate;
 
     private PlayerResponseDto toDto(Player player) {
         return new PlayerResponseDto(
@@ -42,6 +45,11 @@ public class PlayerController {
         return ResponseEntity.ok(playerService.getAllPlayers().stream().map(this::toDto).toList());
     }
 
+    private void sendPlayerList() {
+        messagingTemplate.convertAndSend("/topic",
+                playerService.getAllPlayers().stream().map(this::toDto).toList());
+    }
+
     @PostMapping
     public ResponseEntity<PlayerResponseDto> addPlayer(@Valid @RequestBody PlayerRequestDto addPlayerRequestDto) {
         Player player = new Player(
@@ -53,6 +61,7 @@ public class PlayerController {
                 new Team(null, addPlayerRequestDto.team()),
                 addPlayerRequestDto.country());
         Player createdPlayer = playerService.savePlayer(player);
+        sendPlayerList();
         return ResponseEntity
                 .created(URI.create("http://localhost:8080/api/players/" + createdPlayer.getId().toString()))
                 .body(toDto(createdPlayer));
@@ -70,6 +79,7 @@ public class PlayerController {
                 new Team(null, editPlayerRequestDto.team()),
                 editPlayerRequestDto.country());
         Player updatedPlayer = playerService.savePlayer(player);
+        sendPlayerList();
         return ResponseEntity
                 .ok()
                 .body(toDto(updatedPlayer));
