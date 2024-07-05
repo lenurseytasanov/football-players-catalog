@@ -1,16 +1,19 @@
 package edu.spring.footballplayerscatalog.service;
 
+import edu.spring.footballplayerscatalog.client.WebSocketClient;
 import edu.spring.footballplayerscatalog.domain.Player;
 import edu.spring.footballplayerscatalog.domain.Team;
+import edu.spring.footballplayerscatalog.exception.PlayerNotFoundException;
 import edu.spring.footballplayerscatalog.repository.PlayerRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class PlayerService {
 
@@ -18,9 +21,12 @@ public class PlayerService {
 
     private final TeamService teamService;
 
+    private final WebSocketClient webSocketClient;
+
     @Transactional
-    public Optional<Player> getPlayer(Long id) {
-        return playerRepository.findById(id);
+    public Player getPlayer(Long id) {
+        return playerRepository.findById(id)
+                .orElseThrow(() -> new PlayerNotFoundException(id.toString()));
     }
 
     @Transactional
@@ -30,7 +36,7 @@ public class PlayerService {
 
     @Transactional
     public Player savePlayer(Player player) {
-        Team team = teamService.addTeam(player.getTeam().getName());
+        Team team = teamService.findOrSaveTeam(player.getTeam().getName());
         Player newPlayer = new Player(
                 player.getId(),
                 player.getFirstname(),
@@ -39,6 +45,9 @@ public class PlayerService {
                 player.getBirthdate(),
                 team,
                 player.getCountry());
-        return playerRepository.save(newPlayer);
+        newPlayer = playerRepository.save(newPlayer);
+        log.info("Player {} saved", newPlayer);
+        webSocketClient.sendToEveryone(playerRepository.findAll());
+        return newPlayer;
     }
 }
