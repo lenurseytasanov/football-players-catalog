@@ -1,7 +1,7 @@
 import './App.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import NavHeader from './NavHeader';
-import AddBookPage from './AddBookPage';
+import AddPlayerPage from './AddPlayerPage';
 import MainPage from './MainPage';
 
 function App() {
@@ -10,9 +10,9 @@ function App() {
       <NavHeader />
       <Routes>
         <Route path='new' element={
-          <AddBookPage />
+          <AddPlayerPage />
         }/>
-        <Route path='players' element={
+        <Route path='/' element={
           <MainPage />
         } />
       </Routes>

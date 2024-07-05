@@ -1,19 +1,16 @@
 import React from "react";
 import PlayerForm from "./PlayerForm";
 
-function EditBookPage({player, switchPage}) {
-    async function handleSubmit(event, player) {
-        event.preventDefault();
+function AddPlayerPage() {
 
-        console.log(player);
-        await fetch('/api/players/' + player.id, {
-            method: "put",
+    async function sendData(player) {
+        await fetch('/api/players', {
+            method: "post",
             headers: {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(player)
         });
-        switchPage();
     }
 
     return (
@@ -21,8 +18,8 @@ function EditBookPage({player, switchPage}) {
             <div className="row justify-content-center">
             <div className="col-md-6">
                 <div className="form-container mt-5">
-                    <h2 className="text-center mb-4">Изменить данные игрока</h2>
-                    <PlayerForm initialPlayerState={player} onSubmit={handleSubmit} />
+                    <h2 className="text-center mb-4">Добавить игрока</h2>
+                    <PlayerForm sendData={sendData} />
                 </div>
                 </div>
             </div>
@@ -30,4 +27,4 @@ function EditBookPage({player, switchPage}) {
     )
 }
 
-export default EditBookPage;
+export default AddPlayerPage;

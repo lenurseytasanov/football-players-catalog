@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import PlayerInfo from "./PlayerInfo";
 
-function PlayerListPage({switchPage}) {
+function PlayerListPage({switchPage, setPlayer}) {
     const [players, setPlayers] = useState([]);
 
     useEffect(() => async () => {
@@ -19,7 +19,7 @@ function PlayerListPage({switchPage}) {
                         <h2 className="text-center mb-4">Список игроков</h2>
                         <div className="container">
                             {players.map(player => (
-                                <PlayerInfo key={player.id} value={player} switchPage={switchPage} />
+                                <PlayerInfo key={player.id} value={player} switchPage={switchPage} setPlayer={setPlayer} />
                             ))}
                         </div>
                     </div>

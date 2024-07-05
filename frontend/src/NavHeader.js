@@ -12,7 +12,7 @@ export default function NavHeader() {
                         <a className="nav-link" href="/new">Добавить игрока</a>
                     </li>
                     <li className="nav-item">
-                        <a className="nav-link" href="/players">Список игроков</a>
+                        <a className="nav-link" href="/">Список игроков</a>
                     </li>
                 </ul>
             </div>
